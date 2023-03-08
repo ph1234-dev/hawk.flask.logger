@@ -1,0 +1,12 @@
+<nav class="nav">
+    <span class="nav-content">
+        {# blueprintname.blueprintname.endpoint #}
+        <a href="{{ url_for('user.site.show_users') }}" >Users</a>
+
+        <a href="{{ url_for('log.site.show_recent_logs') }}" >Logs</a>
+        <a href="{{ url_for('classifier.site.show_playground') }}" >Classifier Playground</a>
+        <a href="{{ url_for('show_protected_page') }}"  class="nav-link-push-left">Protected</a>
+        <a href="{{ url_for('show_unprotected_page') }}"  class="nav-link-push-left">Unproctected</a>
+        {# <a class="nav-link-push-left">About</a> #}
+    </span>
+</nav>

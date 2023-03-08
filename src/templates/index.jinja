@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='local.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="template">
+        <div class="template-header">
+            {% include 'components/header.jinja' %}
+        </div>
+
+        <main class="template-body">
+            <div class="container container-centered">
+                {% block content %}
+                <h1>Unimplemented Body</h1>
+                {% endblock %}
+            </div>
+        </main>
+        <div class="template-footer">
+            {% include 'components/footer.jinja' %}
+        </div>
+    </div>
+</body>
+
+</html>

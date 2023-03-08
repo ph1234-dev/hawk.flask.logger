@@ -1,0 +1,31 @@
+{% extends './index.jinja' %}
+
+{% block content %}
+
+    <div class="container util-paddingless" >
+        <span class="text text-big ">Recent Logs</span>
+        <p class="text">
+            Showing <b>{{count}}</b> recent logs in the database. 
+        </p>
+    </div>
+    <table>
+        <thead>
+            <th>No.</th>
+            <th>User</th>
+            <th>Message</th>
+            <th>Response</th>
+            <th>Time</th>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{log.no}}</td>
+                    <td>{{log.user_id}}</td>
+                    <td>{{log.message}}</td>
+                    <td>{{log.reply}}</td>
+                    <td>{{log.created_at}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

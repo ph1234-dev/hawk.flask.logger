@@ -1,0 +1,10 @@
+*{
+    /* the only reason wer can use poppins is because
+        we imported it from google
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    */
+    font-family: "Poppins",'Times New Roman', Times, serif;
+}

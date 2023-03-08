@@ -1,0 +1,31 @@
+{% extends './index.jinja' %}
+
+{% block content %}
+    <div class="container util-paddingless" >
+        <span class="text text-big">User Accounts</span>
+        <p class="text">
+            Showing all <b>{{count}}</b>
+            registered users.
+        </p>
+    </div>
+    <table >
+        <thead>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Name</th>
+            <th>Time</th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.password}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.created_at}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

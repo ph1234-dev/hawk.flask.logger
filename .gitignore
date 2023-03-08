@@ -1,0 +1,10 @@
+#ignore tutorials
+# https://www.atlassian.com/git/tutorials/saving-changes/gitignore
+
+
+Include
+Lib
+Scripts
+**/__pycache__
+*.pyc
+*.cfg
