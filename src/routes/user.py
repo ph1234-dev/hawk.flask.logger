@@ -5,6 +5,11 @@ from sqlalchemy.exc import IntegrityError,NoForeignKeysError
 
 from flask import Blueprint
 
+# jwt and datetime are for token config
+
+import jwt
+import datetime
+
 # the name of the blueprint is user
 # https://www.youtube.com/watch?v=pjVhrIJFUEs
 # the blue print name here 'user' will be used by the url_for('user.[the-endpoint-name]')
@@ -34,11 +39,19 @@ def login():
     if user is None:
         return "Account does not exist",400 
     else:
+
+        user_token = jwt.encode({
+            'user': user.username,
+            # expire after 3 hours
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=120)
+            },
+            app.config['SECRET_KEY'])
+        
         # print(user)
         return jsonify(
             id=user.id,
             name=user.name,
-            token=app.config['WEB_TOKEN'])
+            token=user_token)
 
 # Doing POST 
 # https://sentry.io/answers/flask-getting-post-data/

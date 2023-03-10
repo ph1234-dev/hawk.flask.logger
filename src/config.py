@@ -57,10 +57,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #setting jwt 
 # https://www.youtube.com/watch?v=J5bIPtEbS0Q&t=397s
 app.config['SECRET_KEY'] = 'hawk.io'
-app.config['WEB_TOKEN'] = jwt.encode(
-    {"app": "thesis"}, 
-    app.config['SECRET_KEY'], 
-    algorithm="HS256")
 
 # initialize the app with the extension
 db = SQLAlchemy(app)    
@@ -156,19 +152,23 @@ def token_required(f):
         # let set token to header
         token = request.headers.get('X-Access-Token')
         
-        try:
-            # data  = jwt.decode(token,app.config['SECRET_KEY'],algorithms=["HS256"])
-            # print (f'Token {data}')
-            # LETS NOT DECODE IT
-            if token != app.config['WEB_TOKEN']:
-                return jsonify(msg="Received an Invalid Token")
-                
-        except:
-            return jsonify(msg="Token Required")
-        
-        return f(*args, **kwargs)
+        if not token:
+            return jsonify({
+                'message': 'Token is missing!'
+            }),403
             
+        try:
+            data  = jwt.decode(token,app.config['SECRET_KEY'])
+        except:
+            return jsonify({
+                'Message': 'Token is invalid!'
+            }),403
+        
+        # if no wrong then return this
+        return f(*args,**kwargs)
 
+    # return the inner function to the outer function know what 
+    # to do
     return decorated
 
 # read this example of auth from website
