@@ -27,6 +27,8 @@ class Log(db.Model):
     #mandatory. it means call the class that that you are reffering to
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     message = db.Column(db.String,nullable=False)
+    # setting server default here gives the default value
+    predicted_message_language = db.Column(db.String,server_default='',nullable=False)
     reply = db.Column(db.String,nullable=False)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
