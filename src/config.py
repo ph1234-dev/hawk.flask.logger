@@ -150,19 +150,31 @@ def token_required(f):
     @wraps(f)
     def decorated(*args,**kwargs):
         # let set token to header
-        token = request.headers.get('X-Access-Token')
+        token_header = request.headers.get('Authorization')
+        token = token_header.split()[1]
+        # to get the token you need the next item
         
+        # using bearer token
+        # https://stackoverflow.com/questions/63518441/how-to-read-a-bearer-token-from-postman-into-python-code
+        # headers = flask.request.headers
+        # bearer = headers.get('Authorization')    # Bearer YourTokenHere
+        # token = bearer.split()[1]  # YourTokenHere
+
         if not token:
-            return jsonify({
-                'message': 'Token is missing!'
-            }),403
-            
+            return jsonify({'message': 'Token is missing!'}),403
+
+        print(token)
+        #checks if token is valid
         try:
-            data  = jwt.decode(token,app.config['SECRET_KEY'])
+            # https://pyjwt.readthedocs.io/en/latest/api.html
+            # you have to specify algorithms=['thealgo']
+            # https://stackoverflow.com/questions/40179995/pyjwt-returning-invalid-token-signatures
+            # as indicated here
+            jwt.decode(token,key=app.config['SECRET_KEY'],algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return jsonify({'Message': 'Access token has expired. Please relogin'}),403
         except:
-            return jsonify({
-                'Message': 'Token is invalid!'
-            }),403
+            return jsonify({'Message': 'Token is invalid!'}),403
         
         # if no wrong then return this
         return f(*args,**kwargs)
@@ -170,6 +182,7 @@ def token_required(f):
     # return the inner function to the outer function know what 
     # to do
     return decorated
+
 
 # read this example of auth from website
 # https://flask.palletsprojects.com/en/2.2.x/patterns/viewdecorators/
