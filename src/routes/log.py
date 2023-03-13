@@ -25,7 +25,8 @@ def post_log():
     log = Log(
         user_id=req.get("user_id"),
         message=req.get("message"),
-        reply=req.get("reply")
+        reply=req.get("reply"),
+        predicted_message_language=req.get("predicted_message_language")
         )
 
     try:
@@ -35,7 +36,7 @@ def post_log():
         db.session.rollback()
         return "Something went wrong in commit database transaction"
 
-    return jsonify(msg="Log has been added", token=app.config['WEB_TOKEN'])
+    return jsonify(msg="Log has been added")
     
 
 
