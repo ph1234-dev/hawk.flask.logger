@@ -39,13 +39,21 @@ def login():
     if user is None:
         return "Account does not exist",400 
     else:
-
-        user_token = jwt.encode({
+        payload = {
             'user': user.username,
             # expire after 3 hours
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=120)
-            },
-            app.config['SECRET_KEY'])
+            }
+        
+        # when you use jwt encode.. always specify the algorithm
+        # https://pyjwt.readthedocs.io/en/latest/api.html
+        # you have to specify algorithms='thealgo' noe it is not enclosed by brackets
+        # https://stackoverflow.com/questions/40179995/pyjwt-returning-invalid-token-signatures
+        # as indicated here
+        user_token = jwt.encode(
+            payload,
+            app.config['SECRET_KEY'],
+            algorithm="HS256")
         
         # print(user)
         return jsonify(
