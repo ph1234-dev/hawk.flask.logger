@@ -1,0 +1,23 @@
+{% extends './index.jinja' %}
+
+{% block content %}
+    <form method="POST" action="{{url_for('user.site.user_create')}}">
+        <strong>User details</strong>
+        {% if error %}
+            <em>{{error}}</em>
+        {% else%}
+            <span>Fill up user details</span>
+        {% endif %}
+        
+        <input name="name" type="text" placeholder="Tester" required>
+        <input name="username" type="text" placeholder="Username" required>
+        <input name="password" type="password"  placeholder="Password" required>
+        <input type="submit" value="Create">
+        <a 
+            class="btn form-cancel" 
+            href="{{url_for('user.site.show_users')}}"
+            >
+            <span>Cancel</span>
+        </a>
+    </form>    
+{% endblock%}
