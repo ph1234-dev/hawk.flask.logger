@@ -1,0 +1,32 @@
+
+
+{# renders paging number #}
+{# https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/pagination/ #}
+{# https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/api/#flask_sqlalchemy.SQLAlchemy.paginate #}
+
+{% macro render_pagination(pagination, endpoint) %}
+  {# <div class="page-items text-small">
+    Showing {{ pagination.first }} - {{ pagination.last }} of {{ pagination.total }} Accounts
+  </div> #}
+  <div class="pagination">
+    <i class="icofont-rounded-double-left"></i>
+    {% for page in pagination.iter_pages() %}
+      {% if page %}
+        {% if page != pagination.page %}
+          <span class="pagination-pages">
+            <a  href="{{ url_for(endpoint, page=page) }}">
+              {{ page }}
+            </a>
+          </span>
+        {% else %}
+          <span class="pagination-pages">
+            <strong class="">{{ page }}</strong>
+          </span>
+        {% endif %}
+      {% else %}
+        <span class=ellipsis>…</span>
+      {% endif %}
+    {% endfor %}
+    <i class="icofont-rounded-double-right"></i>
+  </div>
+{% endmacro %}

@@ -1,0 +1,18 @@
+
+{% macro render_searchbar(endpoint) %}
+    <div class="panel util-paddingless" >
+        <strong style="flex-grow:1">Database Information</strong>
+        <form 
+            class="inline-form text-small" 
+            id="search-form" 
+            method="POST" 
+            action="{{ url_for(endpoint) }}">
+
+            {# there is an error where input should not be cut into lines
+            otherwise backend server cant understand the fields here line 
+            the "name=id" attribute #}
+            <input name="id" type="text" placeholder="Search User Id" required>
+            <input class="searchbar" type="submit" value="Search">
+        </form>
+    </div>
+{%endmacro%}
