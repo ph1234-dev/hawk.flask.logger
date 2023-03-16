@@ -1,12 +1,21 @@
 <nav class="nav">
     <span class="nav-content">
-        {# blueprintname.blueprintname.endpoint #}
-        <a href="{{ url_for('user.site.show_users') }}" >Users</a>
 
-        <a href="{{ url_for('log.site.show_recent_logs') }}" >Logs</a>
-        <a href="{{ url_for('classifier.site.show_playground') }}" >Classifier Playground</a>
+        <a class="nav-link nav-link-brand">Hawk Log Manager</a>
+        {# blueprintname.blueprintname.endpoint #}
+        <span class="nav-link nav-link-push-left">
+            <a href="{{ url_for('user.site.show_users') }}" >
+                <i class="icofont-cube"></i>&nbsp;Users
+            </a>
+            &nbsp;
+            <a href="{{ url_for('log.site.show_logs') }}" class="nav-link ">
+                <i class="icofont-cube"></i>&nbsp;Logs
+            </a>
+        </span>
+
+        {# <a href="{{ url_for('classifier.site.show_playground') }}" >Classifier Playground</a>
         <a href="{{ url_for('show_protected_page') }}"  class="nav-link-push-left">Protected</a>
-        <a href="{{ url_for('show_unprotected_page') }}"  class="nav-link-push-left">Unproctected</a>
+        <a href="{{ url_for('show_unprotected_page') }}"  class="nav-link-push-left">Unproctected</a> #}
         {# <a class="nav-link-push-left">About</a> #}
     </span>
 </nav>
