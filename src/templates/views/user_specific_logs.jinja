@@ -1,0 +1,46 @@
+{% extends "./index.jinja" %}
+{% from './macro/pagination.jinja' import render_pagination %}
+
+{% block content %}
+<div class="actionbar text-small">
+    <div class="actionbar-info">
+        <strong class="">{{user.name}} Logs</strong>
+    </div>
+    <div class="actionbar-info">
+        <strong>{{logs.total}} available</strong>
+    </div>
+</div>
+
+
+<table class="text-small">
+    <thead>
+        <th>No</th>
+        <th>Message</th>
+        <th>Lang</th>
+        <th>Reply</th>
+        <th>Time</th>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>{{log.no}}</td>
+            <td>{{log.message}}</td>
+            <td>{{log.predicted_message_language}}</td>
+            <td>{{log.reply}}</td>
+            <td>{{log.created_at}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<strong>
+    <small class="text-small">
+    Showing {{ logs.first }} - {{ logs.last }} of  {{ logs.total }} Logs
+    </small>
+</strong>
+<div>
+    {{render_pagination(logs,'user.site.get_user_specific_logs')}}
+</div>
+
+{% endblock content %}
