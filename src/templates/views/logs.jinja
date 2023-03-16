@@ -1,31 +1,88 @@
 {% extends './index.jinja' %}
-
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
 {% block content %}
 
-    <div class="container util-paddingless" >
-        <span class="text text-big ">Recent Logs</span>
-        <p class="text">
-            Showing <b>{{count}}</b> recent logs in the database. 
-        </p>
+{{render_searchbar('log.site.search_by_user')}}
+
+<div class="actionbar text-small">
+    <div class="actionbar-info">
+        <strong class="">Conversation Logs</strong>
     </div>
-    <table>
+    <div class="actionbar-info">
+        <strong>{{ logs.total }} &nbsp;Available</strong>
+    </div>
+    <a class="actionbar-action" href="{{url_for('log.site.show_available_users')}}">
+        <i class="icofont-database-add"></i>&nbsp;<strong>Create Log</strong>
+    </a>
+</div>
+
+{% if logs.total > 0 %}
+    <table class="text-small">
         <thead>
-            <th>No.</th>
-            <th>User</th>
-            <th>Message</th>
-            <th>Response</th>
-            <th>Time</th>
+            <th>
+                <a href="{{ url_for('log.site.sort_columns',column=0) }}" >
+                   No. <i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('log.site.sort_columns',column=1) }}" >
+                    User Id <i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('log.site.sort_columns',column=2) }}" >
+                    Message <i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('log.site.sort_columns',column=3) }}" >
+                    Reply <i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('log.site.sort_columns',column=4) }}" >
+                    Time Stored <i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>Actions</th>
         </thead>
         <tbody>
             {% for log in logs %}
-                <tr>
-                    <td>{{log.no}}</td>
-                    <td>{{log.user_id}}</td>
-                    <td>{{log.message}}</td>
-                    <td>{{log.reply}}</td>
-                    <td>{{log.created_at}}</td>
-                </tr>
+            <tr>
+                <td>{{log.no}}</td>
+                <td>{{log.user_id}}</td>
+                <td>{{log.message}}</td>
+                <td>{{log.reply}}</td>
+                <td>{{log.created_at}}</td>
+                <td>
+                    {# lets not enable delete #}
+                    {# <a href="{{ url_for('log.site.delete_log',no=log.no) }}">
+                        <i class="icofont-bin"></i>
+                    </a> #}
+                    <a href="">
+                        <i class="icofont-edit"></i>
+                    </a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    <strong>
+        <small class="text-small">
+        Showing {{ logs.first }} - {{ logs.last }} of  {{ logs.total }} Logs
+        </small>
+    </strong>
+
+    {{render_pagination(logs,'log.site.show_logs')}}
+{% else %}
+    <div>
+        <strong>
+            <i class="icofont-exclamation-square"></i> 
+            No Log Exist
+        </strong>
+    </div>
+{% endif%}
+
 {% endblock %}

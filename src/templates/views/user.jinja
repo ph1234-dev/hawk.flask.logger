@@ -1,31 +1,93 @@
 {% extends './index.jinja' %}
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
 
 {% block content %}
-    <div class="container util-paddingless" >
-        <span class="text text-big">User Accounts</span>
-        <p class="text">
-            Showing all <b>{{count}}</b>
-            registered users.
-        </p>
+
+{{render_searchbar("user.site.show_searched_user")}}
+
+<div class="actionbar text-small">
+    <div class="actionbar-info">
+        <strong class="">User Accounts</strong>
     </div>
-    <table >
+    <div class="actionbar-info">
+        <strong>{{ users.total }} Available</strong>
+    </div>
+    <a class="actionbar-action" 
+        href="{{url_for('user.site.user_create')}}">
+        <i class="icofont-database-add"></i>&nbsp;<strong>Create User</strong>
+    </a>
+
+</div>
+
+{% if users.total > 0 %}
+
+    <table class="text-small">
         <thead>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Name</th>
-            <th>Time</th>
+            <th>
+                <a href="{{ url_for('user.site.sort_columns',column=0) }}" >
+                   Id<i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('user.site.sort_columns',column=1) }}" >
+                   Name<i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('user.site.sort_columns',column=2) }}" >
+                   Username<i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('user.site.sort_columns',column=3) }}" >
+                   Password<i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_for('user.site.sort_columns',column=4) }}" >
+                   Time Created<i class="icofont-sort"></i>
+                </a>
+            </th>
+            <th>Actions</th>
         </thead>
         <tbody>
             {% for user in users %}
-                <tr>
-                    <td>{{user.id}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.password}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.created_at}}</td>
-                </tr>
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.password}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.created_at}}</td>
+                <td>
+                    {# never enable delete #}
+                    <a href="{{ url_for('user.site.user_delete',id=user.id) }}" class="">
+                        <i class="icofont-bin"></i>
+                    </a>
+                    <a href="{{ url_for('user.site.user_update',id=user.id) }}" class="">
+                        <i class="icofont-edit"></i>
+                    </a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+    <strong>
+        <small class="text-small">
+        Showing {{ users.first }} - {{ users.last }} of  {{ users.total }} Logs
+        </small>
+    </strong>
+    {{render_pagination(users,'user.site.show_users')}}
+
+{% else %}
+    <div>
+        <strong>
+            <i class="icofont-exclamation-square"></i> 
+            No Log Exist
+        </strong>
+    </div>
+{% endif%}
+
 {% endblock %}
+
+{# {%macro row_option(endpoin,i)%} #}
