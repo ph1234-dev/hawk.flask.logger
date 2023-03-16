@@ -1,0 +1,51 @@
+{% extends './index.jinja'%}
+{% from './macro/pagination.jinja' import render_pagination %}
+
+{% block content %}
+
+<div class="actionbar text-small">
+    <div class="actionbar-info">
+        <strong class="">Users Available</strong>
+    </div>
+    <div class="actionbar-info">
+        <strong>{{users.total}} available</strong>
+    </div>
+</div>
+
+<table class="text-small">
+    <thead>
+        <th width="10%">Id</th>
+        <th width="20%">User</th>
+        <th width="20%">Username</th>
+        <th width="10%">Total Logs</th>
+        <th width="20%">Actions</th>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>undefined</td>
+            <td>
+                <a href="{{ url_for('log.site.create_log',id=user.id)}}">
+                    <strong><i class="icofont-database-add"></i> &nbsp;Add Logs</strong>
+               </a>
+               &nbsp;
+                <a href="{{ url_for('log.site.get_user_specific_logs',id=user.id)}}">
+                    <strong><i class="icofont-list"></i> &nbsp;Show Logs</strong>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<strong>
+    <small class="text-small">
+        Showing {{ users.first }} - {{ users.last }} of {{ users.total }} Users
+    </small>
+</strong>
+<div>
+    {{render_pagination(users,'log.site.show_available_users')}}
+</div>
+{% endblock %}
