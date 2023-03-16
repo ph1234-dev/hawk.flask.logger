@@ -1,4 +1,4 @@
-from flask import Flask, request,jsonify,render_template
+from flask import Flask, request,jsonify,render_template, redirect,url_for
 from config import app, auth_required,validate_content_type_as_json
 from models.models import *
 from sqlalchemy.exc import IntegrityError,NoForeignKeysError
@@ -17,7 +17,8 @@ app.register_blueprint(classifier)
 @app.route("/")
 def hello_world():
     # flask automatically find template in template folders
-    return render_template('/index.jinja')
+    # return render_template('/index.jinja')
+    return redirect(url_for('log.site.show_logs'))
 
 @app.route("/unprotected",endpoint="show_unprotected_page")
 def unprotected():
