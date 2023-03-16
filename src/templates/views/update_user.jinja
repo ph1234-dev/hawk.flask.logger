@@ -1,0 +1,24 @@
+{% extends './index.jinja'%}
+
+{% block content %}
+<form action="{{ url_for('user.site.user_update',id=user.id) }}" method="POST" >
+    <strong>User Update Details</strong>
+    {% if not error %}
+        <p class="text-small">Change items on the field to update</p>
+    {% else %}
+        <em>{{error}}</em>   
+    {% endif %}
+
+    <label>Current Name </label>
+    <input name="name" type="text" value={{user.name}} required>
+    <em class="text-small">not required, but highly encouraged</em>
+    
+    <label>Current Username</label>
+    <input name="username" type="text" value={{user.username}} required>
+    
+    <label>Current Password</label>
+    <input name="password" type="text" value={{user.password}} required>
+    <input type="submit" value="Update">
+    <a href="{{ url_for('user.site.show_users') }}" class="btn form-cancel" ><span>Cancel</span></a>
+</form>
+{% endblock %}
