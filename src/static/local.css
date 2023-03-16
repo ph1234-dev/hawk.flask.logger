@@ -8,3 +8,81 @@
     */
     font-family: "Poppins",'Times New Roman', Times, serif;
 }
+
+.form-cancel{
+    display: flex !important;
+    width: 100%;
+    flex-direction: row !important;
+    align-content: center !important;
+}
+
+.form-cancel span{
+    margin: auto;
+}
+
+/* fix this  */
+
+textarea{
+    
+}
+
+.pagination{
+    display: flex;
+    gap: .51rem;
+    height: 100%;
+    align-items: center;
+}
+
+.pagination-pages{
+    display: flex !important;
+    flex-direction: row;
+    /* align-items: center;
+    align-content: center; */
+    width: 40px;
+    height: 40px;
+    justify-items: center;
+}
+
+.pagination-pages >*{
+    margin: auto;
+    background-color: rgba(225, 225, 225, .8);
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    width: inherit;
+}
+
+
+.inline-form{
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    max-width: 500px;
+    flex-grow: 0 !important;
+    gap: 0 !important;
+    padding: 0;
+}
+
+.inline-form >*{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background-color: transparent;
+}
+
+/* select all input by setting input[type] */
+.inline-form >input[type]{
+    margin-top: 0 !important;
+    border-radius: 0;
+    padding: 0.3333333rem 0.47rem;
+}
+
+.inline-form >.searchbar{
+    /* padding: 1rem 2rem; */
+    width: 80px !important;
+}
+
+
+th *{
+    color: rgba(50, 49, 53, 0.7);
+}
