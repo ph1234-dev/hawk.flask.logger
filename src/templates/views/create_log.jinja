@@ -1,0 +1,20 @@
+{% extends './index.jinja'%}
+
+{% block content %}
+
+
+    <form id="log_form" method="POST" action="{{url_for('log.site.create_log',id=target_id)}}">
+        <strong>Log Details</strong>
+        <span class="text-small">Fill up the information below</span>
+        {# to make placeholder work, you have to make them inline. 
+            otherwise it will take its contents  #}
+        {# https://stackoverflow.com/questions/10186913/html5-textarea-placeholder-not-appearing #}
+        <textarea form="log_form" name="message" placeholder="User Message" required></textarea>
+        <input name="lang" type="text" placeholder="User Message Language" required>
+        <textarea name="reply"  form="log_form" placeholder="Chatbot Reply" required></textarea>
+        <input type="submit" value="Store">
+        <a href="{{url_for('log.site.show_logs')}}">
+            Go Back Home
+        </a>
+    </form>
+{% endblock%}
