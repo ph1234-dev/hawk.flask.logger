@@ -23,10 +23,10 @@
     <tbody>
         {% for user in users %}
         <tr>
-            <td>{{user.id}}</td>
-            <td>{{user.name}}</td>
-            <td>{{user.username}}</td>
-            <td>undefined</td>
+            <td data-title="Id">{{user.id}}</td>
+            <td data-title="User">{{user.name}}</td>
+            <td data-title="Username">{{user.username}}</td>
+            <td data-title="Total Logs">undefined</td>
             <td>
                 <a href="{{ url_for('log.site.create_log',id=user.id)}}">
                     <strong><i class="icofont-database-add"></i> &nbsp;Add Logs</strong>

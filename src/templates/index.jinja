@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
+<script src="{{url_for('static',filename='jquery.js')}}"></script>
+{# <script src="{{url_for('static',filename='local.js')}}"></script> #}
 </head>
 
 <body>
@@ -17,7 +19,7 @@
         </div>
 
         <main class="template-body">
-            <div class="container container-centered">
+            <div id="template-body-content" class="container container-centered">
                 {% block content %}
                 <h1>Unimplemented Body</h1>
                 {% endblock %}
@@ -28,5 +30,4 @@
         </div>
     </div>
 </body>
-
 </html>

@@ -1,0 +1,63 @@
+{% extends "./index.jinja" %}
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
+
+{% block content %}
+
+    <div class="container util-paddingless">
+        <div class="container-centered util-paddingless">
+                
+            <div class="panel util-paddingless" >
+                <strong style="flex-grow:1">Dev Test #{{test_id}} / 
+                    <i>{{testLogs.total}} errors</i>
+                </strong>
+                <span class="text-small"><i>Find</i></span>
+                <form 
+                    class="inline-form text-small" 
+                    id="search-form" 
+                    method="POST" 
+                    action="{{ url_for('test.site.show_invalid_test_cases') }}">
+
+                    {# there is an error where input should not be cut into lines
+                    otherwise backend server cant understand the fields here line 
+                    the "name=id" attribute #}
+                    <input name="test_id" min="0" value={{test_id}} type="number" placeholder="" required>
+                    <input id="test_id_submit_button" type="submit" value="Search"  style="display: none">
+                </form>
+            </div>
+        </div>
+    </div>
+
+   
+    <table class="text-very-small"  style="width:1024px">
+        <thead>
+                <th width="5%">Id</th>
+                <th width="15%">Message</th>
+                <th width="15%">Pattern</th>
+                <th width="">Reply</th>
+                <th width="15%">Method</th>
+                <th width="5%">Score</th>
+                <th width="2%">Lang</th>
+        </thead>
+        <tbody>
+            {% for record in testLogs %}
+                <tr>
+                        <td data-title="Id">{{record.no}}</td>
+                        <td data-title="Message">{{record.user_message}}</td>
+                        <td data-title="Pattern">{{record.pattern_found}}</td> 
+                        <td data-title="Reply">{{record.reply}}</td>
+                        <td>{{record.pattern_matching_method}}</td>
+                        <td>{{record.predicted_score}}</td>
+                        <td data-title="lang">{{record.predicted_language}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $('input[name="test_id"]').change(function (event) {
+            let val = $(this).val()
+            $("#test_id_submit_button").trigger('click');
+        }) 
+    </script>
+{% endblock%}

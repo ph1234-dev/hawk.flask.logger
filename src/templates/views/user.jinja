@@ -17,7 +17,6 @@
         href="{{url_for('user.site.user_create')}}">
         <i class="icofont-database-add"></i>&nbsp;<strong>Create User</strong>
     </a>
-
 </div>
 
 {% if users.total > 0 %}
@@ -54,11 +53,11 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.password}}</td>
-                <td>{{user.name}}</td>
-                <td>{{user.created_at}}</td>
+                <td data-title="Id">{{user.id}}</td>
+                <td data-title="Username">{{user.username}}</td>
+                <td data-title="Password">{{user.password}}</td>
+                <td data-title="Name">{{user.name}}</td>
+                <td data-title="Date Created">{{user.created_at}}</td>
                 <td>
                     {# never enable delete #}
                     <a href="{{ url_for('user.site.user_delete',id=user.id) }}" class="">

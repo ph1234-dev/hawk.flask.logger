@@ -1,0 +1,215 @@
+{% extends "./index.jinja" %}
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
+
+{% block content %}
+    <div class="container util-paddingless">
+        <div class="container-centered util-paddingless">
+                
+            <div class="panel util-paddingless" >
+                <small style="flex-grow:1"><strong>Dev Test Number #{{test_id}}</strong> </small>
+                <small>Correct Responses - {{total_correct_info}}</small>
+                <small>InCorrect Responses - {{total_incorrect_info}}</small>
+                <small class="text-small">Find</small>
+                <form 
+                    class="inline-form text-small" 
+                    id="search-form" 
+                    method="POST" 
+                    action="{{ url_for('test.site.show_test_cases') }}">
+
+                    {# there is an error where input should not be cut into lines
+                    otherwise backend server cant understand the fields here line 
+                    the "name=id" attribute #}
+                    <input name="test_id" min="0" value={{test_id}} type="number" placeholder="" required>
+                    <input id="test_id_submit_button" type="submit" value="Search"  style="display: none">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {# <table class="text-very-small" style="width:"> #}
+    <table class="text-very-small"  style="width:1024px">
+        <thead>
+            <th width="5%">Id</th>
+            <th width="20%">Message</th>
+            <th width="">Reply</th>
+            {# <th width="20%">Reconstructed</th> #}
+            <th width="15%">Pattern</th>
+            <th width="15%">Original</th>
+            {# <th width="1%">Code</th> #}
+            {# <th width="10%">Dimension</th> #}
+            <th width="1%">Lang</th>
+            {# <th width="10%">Method</th> #}
+            {# <th width="">Date</th> #}
+            {# <th width="1%">Correct Language</th> #}
+            <th width="1%">Within Domain</th>
+            <th width="1%">Correct Response</th>
+        </thead>
+        <tbody>
+            {% for record in testLogs %}
+            <tr>
+                <td data-title="Id">{{record.no}}</td>
+                <td data-title="Message">{{record.user_message}}</td>
+                <td data-title="Reply">{{record.reply}}</td>
+                {# {# <td data-title="Reconstructed">{{record.reconstructed_message}}</td> #}
+                <td data-title="Pattern">{{record.pattern_found}}</td> 
+                <td data-title="Pattern">{{record.original_pattern_found}}</td> 
+                {# <td data-title="Dimension Code">{{record.predicted_dimension_number}}</td> #}
+                {# <td data-title="Dimension Label">{{record.predicted_dimension_label}}</td> #}
+                {# <td data-title="lang">{{record.predicted_language}}</td> #}
+                {# <td data-title="Method">{{record.pattern_matching_method}}</td> #}
+                {# <td data-title="Created Date">{{record.created_at}}</td> #}
+                <td>
+                    <input 
+                        id={{record.no}}
+                        name="is_lang_correct_checkbox" 
+                        type="checkbox" 
+                        value={{record.is_lang_correct}}
+                        {% if record.is_lang_correct %}
+                            checked
+                        {%endif%}
+                        >
+                </td>
+                <td>
+                    <input 
+                        id={{record.no}}
+                        name="is_query_within_domain" 
+                        type="checkbox" 
+                        value={{record.is_query_within_domain}}
+                        {% if record.is_query_within_domain %}
+                            checked
+                        {%endif%}
+                        >
+                </td>
+                <td>
+                    <input 
+                        id={{record.no}}
+                        name="is_reply_correct_checkbox" 
+                        type="checkbox" 
+                        value={{record.is_information_retrieved_valid}}
+                        {% if record.is_information_retrieved_valid %}
+                            checked
+                        {%endif%}
+                        >
+                </td>
+            </tr>
+            {%endfor%}
+    </table>
+
+    <strong>
+        <small class="text-small">
+        Showing {{ testLogs.first }} - {{ testLogs.last }} of  {{ testLogs.total }} Logs
+        </small>
+    </strong>
+
+    {{render_pagination(testLogs,'test.site.show_test_cases')}}
+        
+    <script>
+      $('input[type="checkbox"][name="is_lang_correct_checkbox"]').change(function (event) {
+            let id = $(this).attr('id')
+            let val = $(this).val()
+            let status = 0
+
+            status = val == "False" ? "True" : "False"
+
+            console.log(`Id: ${id}\n\tValue:${val}\n\tChanging ${val} to ${status}`)
+            $(this).val(status);
+            
+            const DEV_URL = 'http://127.0.0.1:5000/test/api/update/lang_status'
+            $.ajax({
+                url: DEV_URL,
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                    id: id,
+                    status: status
+                }),
+                success: function (response) {
+                    console.log('\tRequest successful');
+                    $(this).prop('checked', status);
+                    console.log('\tUI Update successful');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Request failed with status ' + status + ': ' + error);
+                    $(this).prop('checked', status);
+                }
+            });
+        })
+
+        $('input[type="checkbox"][name="is_query_within_domain"]').change(function (event) {
+            let id = $(this).attr('id')
+            let val = $(this).val()
+            let status = 0
+
+            status = val == "False" ? "True" : "False"
+
+            console.log(`Id: ${id}\n\tValue:${val}\n\tChanging ${val} to ${status}`)
+            $(this).val(status);
+
+            const DEV_URL = 'http://127.0.0.1:5000/test/api/update/query_within_domain_status'
+            $.ajax({
+                url: DEV_URL,
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                    id: id,
+                    status: status
+                }),
+                success: function (response) {
+                    console.log('\tRequest successful');
+                    $(this).prop('checked', status);
+                    console.log('\tUI Update successful');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Request failed with status ' + status + ': ' + error);
+                    $(this).prop('checked', status);
+                }
+            });
+        })
+
+
+        $('input[type="checkbox"][name="is_reply_correct_checkbox"]').change(function (event) {
+            let id = $(this).attr('id')
+            let val = $(this).val()
+            let status = 0
+
+            status = (val == "False") ? "True" : "False"
+
+            console.log(`Id: ${id}\n\tValue:${val}\n\tChanging ${val} to ${status}`)
+            $(this).val(status);
+
+            const DEV_URL = 'http://127.0.0.1:5000/test/api/update/information_retreived_status'
+            $.ajax({
+                url: DEV_URL,
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({
+                    id: id,
+                    status: status
+                }),
+                success: function (response) {
+                    console.log('\tRequest successful');
+                    $(this).prop('checked', status);
+                    console.log('\tUI Update successful');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Request failed with status ' + status + ': ' + error);
+                    $(this).prop('checked', status);
+                }
+            });
+        })
+
+        $('input[name="test_id"]').change(function (event) {
+            let val = $(this).val()
+            $("#test_id_submit_button").trigger('click');
+        }) 
+    </script>
+
+
+{% endblock %}

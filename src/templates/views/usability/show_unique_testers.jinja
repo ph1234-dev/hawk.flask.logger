@@ -1,0 +1,38 @@
+{% extends './index.jinja' %}
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
+
+{% block content %}
+
+{# {{render_searchbar("user.site.show_searched_user")}} #}
+
+
+    <table class="text-small" style="width:1024px">
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td data-title="No">{{record.id}}</td>
+                <td data-title="Date Created">{{record.created_at}}</td>
+                <td><a href="{{ url_for('usability.site.get_user_conversations',id=record.id) }}">Show Data</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+
+{# {% else %}
+    <div>
+        <strong>
+            <i class="icofont-exclamation-square"></i> 
+            No Log Exist
+        </strong>
+    </div>
+{% endif%} #}
+
+{% endblock %}
+
+{# {%macro row_option(endpoin,i)%} #}

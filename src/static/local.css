@@ -86,3 +86,51 @@ textarea{
 th *{
     color: rgba(50, 49, 53, 0.7);
 }
+
+
+
+table thead{
+    /* display: none !important; */
+        visibility: hidden;
+}
+
+tr{ }
+
+@media screen and (min-width: 420px) {
+
+    tr td{
+        content: attr(data-title)
+    }
+
+    tr{
+        /* display: revert; */
+    }
+
+    table thead{
+        /* display: revert !important; */
+        visibility: visible
+    }
+
+}   
+
+.text-very-small{
+    font-size: .6em;
+}
+
+.template-header,
+.template-header,
+.template-footer{
+    min-width: 100% !important;
+}
+
+#template-footer-content,
+#template-header-content,
+#template-body-content{
+    min-width: 100% !important;
+    /* background-color: green ; */
+}
+
+input[type="checkbox"]/*checkbox class name*/ {
+    width: 25px;
+    height: 25px;
+  }

@@ -35,8 +35,6 @@ feature_vectorizer = joblib.load('./ml/nb.vectorizer')
 # lang_predicted = model.predict(res)
 # print(f"Testing model: {lang_predicted}")
 
-
-
 # initialize the app with the extension
 
 
@@ -44,15 +42,25 @@ feature_vectorizer = joblib.load('./ml/nb.vectorizer')
 app = Flask(__name__)
 
 # enable cors
-CORS(app)
+CORS(app,supports_credentials=True)
 
 
 # db_path = os.path.join(os.path.dirname(__file__), '/var/config-instance/hawk.db')
 # db_uri = 'sqlite:///{}'.format(db_path)
 # app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+
 # initialize the app with the extension
+# use this when using sqlite
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hawk.db"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:root@localhost:5432/hawk"
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+# read for additional databases
+# https://www.youtube.com/watch?v=SB5BfYYpXjE
+app.config['SQLALCHEMY_BINDS'] = {
+    'postgresql': 'postgresql://postgres:root@localhost:5432/hawk'
+}
 
 #setting jwt 
 # https://www.youtube.com/watch?v=J5bIPtEbS0Q&t=397s
@@ -65,9 +73,12 @@ db = SQLAlchemy(app)
 # https://kimlehtinen.com/flask-database-migrations-using-flask-migrate/#:~:text=Next%20step%20is%20to%20actually,always%20apply%20the%20latest%20changes.&text=If%20we%20now%20check%20our,to%20track%20migration%20version%20numbers.
 migrate = Migrate(app, db)
 
+
+
 # DO THIS AFTER migrate = Migrate(app,db)
 
 # step1: Initializing database repository (if not yet else proceed to step 2)
+# if repository already exist then proceed to step 2
 # py -m flask db init
 
 # step2: Create Migration
@@ -193,3 +204,21 @@ def token_required(f):
 #             return redirect(url_for('login', next=request.url))
 #         return f(*args, **kwargs)
 #     return decorated_function
+
+
+# IMPORTANT REMINDERS #
+
+
+# to run app
+# flask --app index.py --debug run
+
+#DO THIS AFTER CHANGES IN THE MODLES APP
+
+# 1. if it says database not updated execute , else proceed to 2
+#    flask db stamp head
+
+# 2. create migrations after changing the models
+#    flask db migrate
+
+# 3. to reflect changes in the database run code below
+#    flask db upgrade

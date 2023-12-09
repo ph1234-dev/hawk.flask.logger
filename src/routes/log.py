@@ -1,6 +1,7 @@
 from flask import request, Blueprint, render_template,jsonify,redirect,url_for
 from config import db, app,validate_content_type_as_json,token_required
 from models.models import Log,User
+from models.deployment import UniqueTesterIdentifier,UsabilityTestLogs
 from sqlalchemy.exc import IntegrityError,NoForeignKeysError
 
 
@@ -237,3 +238,48 @@ def search_log_by_user():
                     .order_by(Log.created_at.desc()),
                 per_page=10)
     return render_template('views/logs.jinja', logs=logs)
+
+
+
+# log
+@api.route('/generate_unique_tester_id',methods=['GET','POST'],endpoint="generate_unique_tester_id")
+def generate_unique_tester_id():
+
+    
+    if request.method == 'GET':
+        userCredentials = UniqueTesterIdentifier()
+        # print ( userCredentials)
+        try:
+            db.session.add(userCredentials)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            return "Something went wrong in commit database transaction" ,500
+        
+            # id = userCredentials.id
+        return jsonify(msg="Log has been added",id=userCredentials.id)
+    
+    elif request.method == 'POST':
+        req = request.json
+        print ( req)
+        userCredentials = UniqueTesterIdentifier(
+                user_agent=req.get('userAgent'))
+        
+        # print ( userCredentials)
+        try:
+            db.session.add(userCredentials)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            return "Something went wrong in commit database transaction" ,500
+        
+            # id = userCredentials.id
+        return jsonify(msg="Log has been added",id=userCredentials.id)
+
+# @site.route('/show_unique_tester_id',methods=['GET'],endpoint="show_unique_tester_id")
+# def show_unique_tester_id():
+#     uniqueIdentifiers = db.paginate(
+#                 db.select(UniqueTesterIdentifier)
+#                 .order_by(UniqueTesterIdentifier.created_at.desc()),
+#                 per_page=10)
+#     return render_template('views/show_unique_testers.jinja', records=uniqueIdentifiers)

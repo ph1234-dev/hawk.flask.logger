@@ -1,4 +1,6 @@
 {% extends './index.jinja'%}
+{% from './macro/pagination.jinja' import render_pagination %}
+{% from './macro/searchbar.jinja' import render_searchbar%}
 
 {% block content %}
 <form action="{{ url_for('user.site.user_update',id=user.id) }}" method="POST" >

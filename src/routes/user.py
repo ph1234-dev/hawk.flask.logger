@@ -302,4 +302,9 @@ def create():
                 return redirect(url_for('user.site.show_users'))
             except:
                 db.session.rollback()
+
+                # suppose user is something like
+                # user = { 'name': given-name }
+                # you can pass this in as **user in render template
+                # such that render_template('path',**user)
                 return render_template('./views/create_user.jinja',user=_user)

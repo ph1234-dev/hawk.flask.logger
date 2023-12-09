@@ -1,16 +1,27 @@
 <nav class="nav">
-    <span class="nav-content">
+    <span class="nav-content" id="template-body-content" >
 
         <a class="nav-link nav-link-brand">Hawk Log Manager</a>
         {# blueprintname.blueprintname.endpoint #}
         <span class="nav-link nav-link-push-left">
-            <a href="{{ url_for('user.site.show_users') }}" >
-                <i class="icofont-cube"></i>&nbsp;Users
+            <a href="{{ url_for('usability.site.show_unique_tester_id') }}" >
+                <i class="icofont-cube"></i>&nbsp;Usability Testers
             </a>
-            &nbsp;
+            {# <a href="{{ url_for('user.site.show_users') }}" >
+                <i class="icofont-cube"></i>&nbsp;Userss
+            </a>
+            &nbsp; 
             <a href="{{ url_for('log.site.show_logs') }}" class="nav-link ">
                 <i class="icofont-cube"></i>&nbsp;Logs
             </a>
+            &nbsp;
+            <a href="{{ url_for('test.site.show_test_cases') }}" class="nav-link ">
+                <i class="icofont-cube"></i>&nbsp;Tests
+            </a>
+            &nbsp;
+            <a href="{{ url_for('test.site.show_invalid_test_cases') }}" class="nav-link ">
+                <i class="icofont-cube"></i>&nbsp;Tests Errors
+            </a>#}
         </span>
 
         {# <a href="{{ url_for('classifier.site.show_playground') }}" >Classifier Playground</a>

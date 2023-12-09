@@ -23,11 +23,11 @@
     <tbody>
         {% for log in logs %}
         <tr>
-            <td>{{log.no}}</td>
-            <td>{{log.message}}</td>
-            <td>{{log.predicted_message_language}}</td>
-            <td>{{log.reply}}</td>
-            <td>{{log.created_at}}</td>
+            <td data-title="No">{{log.no}}</td>
+            <td data-title="Message">{{log.message}}</td>
+            <td data-title="Predicted Langauge">{{log.predicted_message_language}}</td>
+            <td data-title="Reply">{{log.reply}}</td>
+            <td data-title="Date Created">{{log.created_at}}</td>
         </tr>
         {% endfor %}
     </tbody>
