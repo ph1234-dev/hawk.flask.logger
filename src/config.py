@@ -58,9 +58,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hawk.db"
 
 # read for additional databases
 # https://www.youtube.com/watch?v=SB5BfYYpXjE
-app.config['SQLALCHEMY_BINDS'] = {
-    'postgresql': 'postgresql://postgres:root@localhost:5432/hawk'
-}
+# app.config['SQLALCHEMY_BINDS'] = {
+#     'postgresql': 'postgresql://postgres:root@localhost:5432/hawk'
+# }
 
 #setting jwt 
 # https://www.youtube.com/watch?v=J5bIPtEbS0Q&t=397s
